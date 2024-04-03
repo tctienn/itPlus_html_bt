@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .button {
+            background-color: rgb(6, 142, 38);
+            color: white;
+            border: none;
+            height: 25px;
+            border-radius: 2px;
+            width: max-content;
+        }
+
+        .input {
+            height: 25px;
+            border-radius: 2px;
+            width: 40%;
+            border: none;
+            margin-right: 4px;
+
+        }
+
+        label {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        th {
+            text-align: left
+        }
+
+        .cl {}
+
+        .change {
+            /* position: fixed; */
+            /* display: none; */
+        }
+    </style>
+    <script>
+        let list = [];
+        const createListHtml = () => {
+            var data = '<table width: 100%; cellspacing="0" >' + '<tr><th>tên</th><th>giá</th><th>màu</th></tr>'
+            for (i = 0; i < list.length; i++) {
+                data += '<tr class="cl" style="  height: 40px; ' + (i % 2 == 0 ? 'background-color: #d8d8d8;' : '') + '">'
+                data += '<td style="width:30%">' + list[i].name + '</td>'
+                data += '<td style="width:30%">' + list[i].price + '</td>'
+                data += '<td style="width:30%">' + list[i].color + '</td>'
+                data += '<td style="padding:10px;">' + ' <button class="button" onclick="onedit(' + i + ')">edit </button>' + '</td>'
+                data += '<td style="padding:10px;"> <button class="button" onclick="ondelete(' + i + ')"> delete</button>' + '</td>'
+                data += '</tr>'
+            }
+            data += '</table>'
+            document.getElementById('list').innerHTML = data
+            document.getElementById('count').innerText = list.length
+        }
+        const addText = () => {
+            var a = {
+                name: document.getElementById('inputText').value,
+                price: document.getElementById('price').value,
+                color: document.getElementById('color').value
+            }
+            console.log(a)
+            list.push(a)
+            createListHtml()
+            document.getElementById('inputText').value = ''
+            document.getElementById('price').value = ''
+            document.getElementById('color').value = ''
+            // console.log(list)
+
+
+
+        }
+        var chose
+        const onedit = (i) => {
+
+
+            // alert(i)
+            document.getElementById('inputText').value = list[i].name
+            document.getElementById('price').value = list[i].price
+            document.getElementById('color').value = list[i].color
+            chose = i
+            document.getElementById('edit').style.display = 'block'
+            document.getElementById('add').style.display = 'none'
+        }
+
+        const edit = () => {
+            list[chose] = {
+                name: document.getElementById('inputText').value,
+                price: document.getElementById('price').value,
+                color: document.getElementById('color').value
+            }
+            createListHtml()
+            document.getElementById('inputText').value = ''
+            document.getElementById('price').value = ''
+            document.getElementById('color').value = ''
+            // alert(list.length)
+            document.getElementById('edit').style.display = 'none'
+            document.getElementById('add').style.display = 'block'
+
+        }
+
+        const ondelete = (e) => {
+            list.splice(e, 1)
+            createListHtml()
+
+
+
+        }
+    </script>
+</head>
+
+<body>
+    <div style="width: 50%; margin: auto;">
+        <h2>tieu de</h2>
+
+        <div
+            style=" display: flex;padding: 20px;background-color: gainsboro;width: 94%;flex-direction: column;justify-content: space-around;height: 200px;">
+
+            <label>tên</label>
+            <input class="input" name="text" id="inputText" placeholder="nhập nội dung">
+            <br />
+            <label>giá</label>
+            <input class="input" name="text" id="price" placeholder="giá">
+            <br />
+
+            <label>màu</label>
+            <input class="input" type="color" name="text" style="width: 20px;" id="color" placeholder="nhập nội dung">
+            <br />
+
+            <div>
+                <button id="add" class="button" onclick="addText()">them</button>
+            </div>
+            <button id="edit" class="button" onclick="edit()" style="display: none;">
+                edit
+            </button>
+        </div>
+
+        <h2>
+            danh sách
+        </h2>
+
+        <div style="text-align: end; color: red;">
+            list: <b id="count"></b>
+        </div>
+        <div id="list">
+
+        </div>
+
+
+    </div>
+
+
+
+</body>
+
+</html>
